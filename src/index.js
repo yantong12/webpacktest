@@ -1,5 +1,6 @@
 import _ from 'lodash'
 import printMe from './print'
+import './style.css'
 
 function component() {
     var element = document.createElement('div');
@@ -12,8 +13,15 @@ function component() {
     btn.onclick = printMe
 
     element.appendChild(btn)
-
+    console.log('111eee')
     return element;
   }
   
   document.body.appendChild(component());
+
+  if (module.hot) {
+    module.hot.accept('./print.js',function () {
+      console.log('Accepting the updated printNe module!')
+      printMe()
+    })
+  }
