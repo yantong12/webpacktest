@@ -1,7 +1,7 @@
 const path = require("path");
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const CleanWebpackPlugin = require('clean-webpack-plugin')
-const webpack = require('webpack')
+const WorkboxPlugin = require('workbox-webpack-plugin')
 
 module.exports = {
   entry: {
@@ -10,6 +10,17 @@ module.exports = {
   output: {
     filename: "[name].bundle.js",
     path: path.resolve(__dirname, "dist"),
-    publicPath: '/'
   },
+  plugins: [
+    new HtmlWebpackPlugin({
+      title:'progressive web application'
+    }),
+    new CleanWebpackPlugin(['dist']),
+    new WorkboxPlugin.GenerateSW({
+       // 这些选项帮助 ServiceWorkers 快速启用
+     // 不允许遗留任何“旧的” ServiceWorkers
+      clientsClaim: true,
+      skipWaiting: true
+    })
+  ]
 };
