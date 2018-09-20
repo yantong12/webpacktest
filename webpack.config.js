@@ -5,11 +5,29 @@ const webpack = require('webpack')
 
 module.exports = {
   entry: {
-    app:"./src/index.js"
+    main:"./src/index.js",
+    vandor: ['lodash']
+  },
+  plugins: [
+    new CleanWebpackPlugin(['dist']),
+    new HtmlWebpackPlugin({title:'caching'}),
+    new webpack.HashedModuleIdsPlugin()
+    // new webpack.optimize.CommonsChunkPlugin({name:'manifest'})
+  ],
+  optimization: {
+    runtimeChunk:{
+      name: 'manifest'
+    },
+    splitChunks: {
+      cacheGroups: {
+        commons: {
+            name: "vendor",
+        }
+    }
+    }
   },
   output: {
-    filename: "[name].bundle.js",
+    filename: "[name].[chunkhash].js",
     path: path.resolve(__dirname, "dist"),
-    publicPath: '/'
   },
 };
